@@ -8,6 +8,7 @@ import Album from '../controllers/album'
 
 import Lista_reproduccion from '../controllers/lista_reproduccion'
 import Videos_lista from '../controllers/video_of_lista'
+import Video_album from '../controllers/video_album'
 
 /* 
     <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -35,21 +36,23 @@ const storageB = multer.diskStorage({
     }
 });
 const storageB_1 = multer.diskStorage({
-    destination: 'uploads/vid/vidMusic',
+    destination: 'uploads/vid/video_data/portada',
     filename: (req, file, cb) => {
         cb(null, uuid() + path.extname(file.originalname))
-    }/* ,
-    onFileUploadStart: function (file) {
-        process.stderr.write('Uploading file..........');
-    },
-    onFileUploadComplete: function (file) {
-      var terminado = process.stderr.write('terminado');
-      console.log(terminado, "   esto es lo que quiero ver <<<<<<<<<<<", file)
-    } */
+    }
 });
+const storageB_2 = multer.diskStorage({
+    destination: 'uploads/vid/video_data/videos',
+    filename: (req, file, cb) => {
+        cb(null, uuid() + path.extname(file.originalname))
+    }
+});
+
 const destA = multer({ storage : storageA})
 const destB = multer({ storage : storageB})
 const destB_1 = multer({ storage : storageB_1})
+const destB_2 = multer({ storage : storageB_2})
+
 /* 
     <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
                             end guardar archivos
@@ -70,6 +73,7 @@ export default (app) => {
 
     // sequelize model:create --name lista_reproduccion --attributes title:string
     // sequelize model:create --name videos_of_lista --attributes album:string,artista:string,año:string,genero:string,videoPath:string,id_lista:integer
+    // sequelize model:create --name videos_of_lista --attributes video:string, id_album:integer
 
     app.post('/api/users', Users.signUp); // API route for user to signup
     app.post('/api/users/:userId/books', Books.create); // API route for user to create a book
@@ -112,6 +116,11 @@ export default (app) => {
     app.get('/album/:id', Album.one_video);
     app.delete('/album/:id', Album.delete_music);
     app.put('/album/:id', Album.update_music);
+
+    //video album 
+    app.post('/addVideo_album/:id_album', destB_2.single('video'), Video_album.create);
+    app.get('/videos_all', Video_album.list_all)
+    app.delete('/delte_video_album_data/:id', Video_album.delete_video)
 
     //lista de reproduccion
     app.post('/lista_reproduccion', Lista_reproduccion.create);

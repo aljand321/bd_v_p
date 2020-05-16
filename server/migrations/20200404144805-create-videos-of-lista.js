@@ -23,7 +23,10 @@ module.exports = {
       genero: {
         type: Sequelize.STRING
       },
-      videoPath: {
+      portada: {
+        type: Sequelize.STRING
+      },
+      video_data: {
         type: Sequelize.STRING
       },
       id_video: {

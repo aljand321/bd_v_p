@@ -18,6 +18,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   albun.associate = function(models) {
     // associations can be defined here
+    albun.hasMany(models.video_album, {
+      foreignKey: 'id_album',
+    });
     albun.belongsTo(models.portadas, {
       foreignKey: 'idPortada',
       onDelete: 'CASCADE'

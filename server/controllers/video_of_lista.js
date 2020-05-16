@@ -2,7 +2,7 @@ import model from '../models';
 
 const { videos_of_lista } = model;
 const { albun } = model;
-
+const { video_album } = model;
 
 class Videos_lista {
     static create(req, res) {
@@ -10,7 +10,11 @@ class Videos_lista {
         console.log(req.body)
         return albun
             .findAll({
-                where: { id: id_album }
+                where: { id: id_album },
+                include:[{
+                    model:video_album,
+                    attributes: ['video']
+                }]
             })
             .then(data => {
                /*  res.status(200).json(data)
@@ -35,7 +39,8 @@ class Videos_lista {
                                 artista: data[0].artista,
                                 año: data[0].anio,
                                 genero: data[0].genero,
-                                videoPath: data[0].videoPath,
+                                portada: data[0].videoPath,
+                                video_data: data[0].video_albums[0].video,
                                 id_video : data[0].id,
                                 id_lista: id_lista
                             })

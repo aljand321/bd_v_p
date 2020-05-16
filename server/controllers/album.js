@@ -3,6 +3,7 @@ import path from 'path';
 import fs from 'fs-extra';
 
 const { albun } = model;
+const { video_album } = model;
 
 class Album {
     static create(req, res) {
@@ -31,7 +32,11 @@ class Album {
         const { id } = req.params
         return albun
             .findAll({
-                where: { idPortada: id }
+                where: { idPortada: id },
+                include:[{
+                    model:video_album,
+                    attributes: ['video']
+                }]
             })
             .then(data => {
                 if (data) {
@@ -46,16 +51,24 @@ class Album {
     }
     static list(req, res) {
         return albun
-            .findAll()
+            .findAll({
+                include:[{
+                    model:video_album,
+                    attributes: ['video']
+                }]
+            })
             .then(data => res.status(200).send(data));
     }
 
     static one_video(req, res) {
         const { id } = req.params
         return albun
-            .findAll(
-                { where: { id: id } }
-            )
+            .findAll({ 
+                where: { id: id },
+                include:[{
+                    model:video_album
+                }] 
+            })
             .then(data => {
                 res.status(200).json(data)
             })

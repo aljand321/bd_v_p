@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     artista: DataTypes.STRING,
     año: DataTypes.STRING,
     genero: DataTypes.STRING,
-    videoPath: DataTypes.STRING,
+    portada: DataTypes.STRING,
+    video_data: DataTypes.STRING,
     id_video : DataTypes.INTEGER,
     id_lista: {
       type: DataTypes.INTEGER,
