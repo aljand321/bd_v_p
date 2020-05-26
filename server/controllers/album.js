@@ -158,6 +158,28 @@ class Album {
                 console.error(error)
             })
     }
+
+    static buscar_video(req, res) {
+        console.log(req.query, " esto es el query  <<<<<<<<<<<<<<<<<<")
+        return albun
+            .findAll({
+                include:[{
+                    model:video_album,
+                    attributes: ['video']
+                }]
+            })
+            .then(data => {
+                var filtrado = data.filter(
+                (item) => 
+                    item.nombre.toLowerCase().includes(req.query.nombre.toLowerCase()) ||
+                    item.album.toLowerCase().includes(req.query.nombre.toLowerCase()) ||
+                    item.artista.toLowerCase().includes(req.query.nombre.toLowerCase()) ||
+                    item.anio.includes(req.query.nombre) ||
+                    item.genero.toLowerCase().includes(req.query.nombre.toLowerCase())
+                )
+                res.status(200).json(filtrado)
+            });
+    }
 }
 
 export default Album;

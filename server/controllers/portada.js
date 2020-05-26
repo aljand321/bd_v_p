@@ -89,10 +89,8 @@ class Portada {
             console.log(error)
         });
     }
-    static delete_portada(req, res) {
-       
-        return portadas
-        
+    static delete_portada(req, res) {       
+        return portadas        
         .findByPk(req.params.id)
         .then(data => {
             if(!data) {
@@ -117,11 +115,22 @@ class Portada {
                         console.log(error)
                     }
                 })                
-            }                                 
-            
+            }    
         })
         .catch(error => res.status(400).send(error))
         
     }
+    static buscar_portada(req,res){
+        return portadas
+        .findAll()
+        .then(data => {
+            var filtrado = data.filter(
+                (item) => 
+                item.title.toLowerCase().includes(req.query.title.toLowerCase())
+            )
+            res.status(200).json(filtrado)
+        })
+    }
+    
 }
 export default Portada

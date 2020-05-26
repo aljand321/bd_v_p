@@ -109,6 +109,8 @@ export default (app) => {
     app.put('/portada/:id', Portada.updatePortada);
     app.delete('/portada/:id', Portada.delete_portada);
 
+    app.get('/buscar_portada', Portada.buscar_portada);
+
     //album
     app.post('/album/:id_portada', destB_1.single('vid'), Album.create);
     app.get('/album_portada/:id', Album.VideosDePortada);
@@ -116,6 +118,8 @@ export default (app) => {
     app.get('/album/:id', Album.one_video);
     app.delete('/album/:id', Album.delete_music);
     app.put('/album/:id', Album.update_music);
+
+    app.get('/buscador',  Album.buscar_video);
 
     //video album 
     app.post('/addVideo_album/:id_album', destB_2.single('video'), Video_album.create);
