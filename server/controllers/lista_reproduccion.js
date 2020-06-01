@@ -1,6 +1,7 @@
 import model from '../models';
 
 const { lista_reproduccion } = model
+const { videos_of_lista } = model;
 
 class Lista_reproduccion {
     static create(req,res){
@@ -120,6 +121,44 @@ class Lista_reproduccion {
         .catch(error => {
             console.log(error)
         });
+    }
+    //videos que pertenecen a una lista de reproduccion
+    static videos_list(req,res){
+       
+        return videos_of_lista 
+        .findAll({
+           where:{id_video: req.params.id_video}
+        })
+        .then(v => {
+            
+            return lista_reproduccion
+            .findAll({                                   
+                attributes: ['id','title','data']            
+            })
+            .then(lista => {
+                
+                var data = lista
+                for (var i = 0; i < lista.length; i++){
+                    for(var j = 0; j < v.length; j++ ){
+                        if(lista[i].id == v[j].id_lista){
+                            data[i]= {
+                                id:lista[i].id,
+                                title: lista[i].title,
+                                data:true
+                            }
+                        }
+                    }
+                }       
+                res.status(200).json(data)
+            })            
+        })
+        .catch(error => {
+            console.log(error)
+            res.status(400).json({
+                msg: "no se pudo mostrar los datos",
+                error
+            })
+        })
     }
 }
 

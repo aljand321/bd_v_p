@@ -133,11 +133,16 @@ export default (app) => {
     app.delete('/lista_reproduccion/:id', Lista_reproduccion.delete_lista);
     app.put('/lista_reproduccion', Lista_reproduccion.update_list);
 
+    //consuta que muestra los viodes que pertenecen a una lista de reproduccion
+    app.get('/videos_of_lista/:id_video', Lista_reproduccion.videos_list);
+
     //videos de lista de reproduccion
     app.post('/video_lista', Videos_lista.create); // esta ruta es para poder añadiar videos a lista de reproduccion
     app.get('/video_lista', Videos_lista.video_list_A)
     app.get('/video_lista/:id_lista', Videos_lista.video_list);
     app.get('/video_lista_one/:id', Videos_lista.one_video_list);
     app.delete('/video_lista/:id', Videos_lista.delete_video);
-
+    app.delete('/del_video_list/:id_video/:id_lista',Videos_lista.delete_video_lista)
+    
+    
 };

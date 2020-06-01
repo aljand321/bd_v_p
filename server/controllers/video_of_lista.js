@@ -144,5 +144,24 @@ class Videos_lista {
             })
             .catch(error => res.status(400).send(error))
     }
+
+    static delete_video_lista(req,res){
+        return videos_of_lista
+        .findOne({
+            where:{id_video: req.params.id_video, id_lista: req.params.id_lista}
+        })
+        .then(video => {
+            //console.log(req.params.id_video,' -- ',req.params.id_lista )
+            //console.log(video)
+            return video
+            .destroy()
+            .then(() => {
+                res.status(200).json({
+                    video
+                })
+            })
+            
+        })
+    }
 }
 export default Videos_lista;
