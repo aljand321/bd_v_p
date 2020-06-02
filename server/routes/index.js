@@ -10,6 +10,10 @@ import Lista_reproduccion from '../controllers/lista_reproduccion'
 import Videos_lista from '../controllers/video_of_lista'
 import Video_album from '../controllers/video_album'
 
+import Usuario from '../controllers/usuario'
+
+const passport = require('passport');
+require('../config/passport')(passport);
 /* 
     <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -60,7 +64,7 @@ const destB_2 = multer({ storage : storageB_2})
         https://anotherdev.xyz/upload-file-multiple-destinations-multer/
     <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 */
-export default (app) => {
+module.exports = (app) => {
 
     app.get('/api', (req, res) => res.status(200).send({
         message: 'Welcome to the bookStore API!',
@@ -74,6 +78,9 @@ export default (app) => {
     // sequelize model:create --name lista_reproduccion --attributes title:string
     // sequelize model:create --name videos_of_lista --attributes album:string,artista:string,año:string,genero:string,videoPath:string,id_lista:integer
     // sequelize model:create --name videos_of_lista --attributes video:string, id_album:integer
+
+    // sequelize model:create --name usuario --attributes usuario:string,email:string,password:string 
+    // sequelize model:create --name contacto --attributes nombres:text,apellidos:text,telefono:number,id_user:integer
 
     app.post('/api/users', Users.signUp); // API route for user to signup
     app.post('/api/users/:userId/books', Books.create); // API route for user to create a book
@@ -114,7 +121,7 @@ export default (app) => {
     //album
     app.post('/album/:id_portada', destB_1.single('vid'), Album.create);
     app.get('/album_portada/:id', Album.VideosDePortada);
-    app.get('/album', Album.list);
+    app.get('/album',  Album.list);
     app.get('/album/:id', Album.one_video);
     app.delete('/album/:id', Album.delete_music);
     app.put('/album/:id', Album.update_music);
@@ -143,6 +150,11 @@ export default (app) => {
     app.get('/video_lista_one/:id', Videos_lista.one_video_list);
     app.delete('/video_lista/:id', Videos_lista.delete_video);
     app.delete('/del_video_list/:id_video/:id_lista',Videos_lista.delete_video_lista)
+
+
+    //login
+    app.post('/register', Usuario.create_usuario);
+    app.post('/login', Usuario.login);
     
     
 };

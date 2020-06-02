@@ -133,4 +133,5 @@ class Portada {
     }
     
 }
+
 export default Portada
