@@ -7,12 +7,14 @@ const { portadas } = model
 class Portada { 
     static cratePortada(req,res){
         const { title, description } = req.body;
+        const { id_user } = req.params;
         console.log(req.file, " <<<<<<<<<<<<<<<<<<<<<<")
         return portadas
             .create({
                 title,
                 description,
-                imagePath: req.file.path
+                imagePath: req.file.path,
+                id_user
             })
             .then(data => {
                 res.status(200).json({                    

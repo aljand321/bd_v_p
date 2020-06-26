@@ -1,20 +1,11 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('contactos', {
+    return queryInterface.createTable('user_roles', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      nombres: {
-        type: Sequelize.TEXT
-      },
-      apellidos: {
-        type: Sequelize.TEXT
-      },
-      telefono: {
         type: Sequelize.INTEGER
       },
       id_user: {
@@ -23,7 +14,16 @@ module.exports = {
         references: {
           model: 'usuarios',
           key: 'id',
-          as: 'id_user',
+          as: 'id_user'
+        }
+      },
+      id_role: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'roles',
+          key: 'id',
+          as: 'id_role'
         }
       },
       createdAt: {
@@ -37,6 +37,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('contactos');
+    return queryInterface.dropTable('user_roles');
   }
 };

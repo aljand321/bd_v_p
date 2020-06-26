@@ -27,7 +27,17 @@ module.exports = (sequelize, DataTypes) => {
     usuario.hasMany(models.contacto, {
       foreignKey: 'id_user',
     });
+    usuario.hasMany(models.portadas, {
+      foreignKey: 'id_user',
+    });
+    usuario.hasMany(models.lista_reproduccion, {
+      foreignKey: 'id_user',
+    });
+    usuario.belongsToMany(models.role,{
+      through:'user_role',
+      as: 'role',
+      foreignKey:'id_user'
+    });
   };
-
   return usuario;
 };

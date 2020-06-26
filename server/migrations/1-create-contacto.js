@@ -1,21 +1,33 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('portadas', {
+    return queryInterface.createTable('contactos', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      title: {
+      nombres: {
+        type: Sequelize.TEXT
+      },
+      apellidos: {
+        type: Sequelize.TEXT
+      },
+      telefono: {
+        type: Sequelize.INTEGER
+      },
+      imagen_perfil:{
         type: Sequelize.STRING
       },
-      description: {
-        type: Sequelize.STRING
-      },
-      imagePath: {
-        type: Sequelize.STRING
+      id_user: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'usuarios',
+          key: 'id',
+          as: 'id_user',
+        }
       },
       createdAt: {
         allowNull: false,
@@ -28,6 +40,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('portadas');
+    return queryInterface.dropTable('contactos');
   }
 };

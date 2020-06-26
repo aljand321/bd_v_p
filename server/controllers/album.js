@@ -30,6 +30,7 @@ class Album {
     }
     static VideosDePortada(req, res) {
         const { id } = req.params
+        //console.log(id, " esot es <<<<<<<<<<<<<<<<<<<<<<<<<<")
         return albun
             .findAll({
                 where: { idPortada: id },

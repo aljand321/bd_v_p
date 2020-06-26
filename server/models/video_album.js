@@ -2,7 +2,14 @@
 module.exports = (sequelize, DataTypes) => {
   const video_album = sequelize.define('video_album', {
     video: DataTypes.STRING,
-    id_album: DataTypes.INTEGER
+    id_album: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'albun',
+        key: 'id',
+        as: 'id_album',
+      }
+    }
   }, {});
   video_album.associate = function(models) {
     // associations can be defined here

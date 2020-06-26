@@ -6,10 +6,12 @@ const { videos_of_lista } = model;
 class Lista_reproduccion {
     static create(req,res){
         const { title } = req.body;
+        const { id_user } = req.params
         console.log(title, " <<<<<<<<<<<<<<<<<<<<<")
         return lista_reproduccion
         .create({
-            title
+            title,
+            id_user
         })
         .then(data => {
             res.status(200).json({

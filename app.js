@@ -16,13 +16,13 @@ const AuthToken = require('./server/midleware/token')
 var cors = require('cors')
 
 const hostname = '127.0.0.1';
-const red = '192.168.1.151';
+const red = '192.168.1.152';
 const port = process.env.PORT || 3000;
 const app = express()
 const server = http.createServer(app);
 
 
-app.use(AuthToken);
+//app.use(AuthToken);
 //require('./server/config/passport')(passport)
 
 app.use(logger('dev'));
@@ -30,12 +30,14 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
+app.use('/uploads', express.static(path.resolve('uploads')));
+//app.use(AuthToken);
 
 routes(app);
 
 // this folders for this application will be used to store public file images
-require('./server/routes')(app, passport);
-app.use('/uploads', express.static(path.resolve('uploads')));
+//require('./server/routes')(app, passport);
+
 
 app.get('/*', (req, res) => res.status(200).send({
   message: 'Welcome to the .',

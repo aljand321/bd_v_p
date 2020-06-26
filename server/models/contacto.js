@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     nombres: DataTypes.TEXT,
     apellidos: DataTypes.TEXT,
     telefono: DataTypes.NUMBER,
+    imagen_perfil:DataTypes.STRING,
     id_user: {
       type: DataTypes.INTEGER,
       references: {

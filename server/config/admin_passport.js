@@ -7,15 +7,14 @@ const { usuario } = model;
 const { role } = model;
 
 module.exports = function(passport) {
-  //console.log(passport, " dddd ")
-  //console.log(" esto es passport")
+  //console.log("esto administrador passport")
   const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
     secretOrKey: 'nodeauthsecret',
   };
   
   passport.use('jwt', new JwtStrategy(opts, function(jwt_payload, done) {    
-    console.log(jwt_payload, "   esto es lo que quiero ver ")
+    //console.log(jwt_payload)
     usuario
       .findOne({
         where:{id : jwt_payload.id},
@@ -26,15 +25,24 @@ module.exports = function(passport) {
           }]
       })
       .then((user) => {         
-        console.log(user, " <<<<<<<<<<<<<<<<<<<<<<<<<")
-        if(user.role[0].nombre == "administrador" || user.role[0].nombre == "usuario"){
-          return done(null, user); 
+        console.log(user.role[0].nombre, " esto es ")
+        if(user.role.length == 0){
+            return done(null, false)
         }else{
-          return done(null, false)
-        }    
+            var data
+            for(var i = 0; i < user.role.length; i++){
+                if(user.role[i].nombre == 'administrador'){
+                    data = user.role[i].nombre
+                }
+            }
+            if(data == "administrador"){
+                return done(null, user); 
+            }else{
+              return done(null, false)
+            }  
+        }
+          
       })
-      .catch((error) => { return done(error, false) });
+      .catch((error) => { return done(error, false); });
   }));
 };
-
-
