@@ -13,6 +13,7 @@ const { user_role } = model;
 class Usuario {
     static create_usuario(req, res) {
         const { user, email, password, password2 } = req.body
+        console.log(req.body, " esto <<<<<<<<<<<<<<<<")
         if (!user || !email || !password || !password2) {
             res.status(200).json({
                 success: false,
@@ -102,13 +103,13 @@ class Usuario {
         return usuario
             .findAll()
             .then(data => {
-                if (data !== []) {
+                if (data.length == 0) {
                     res.status(200).json({
-                        success: false
+                        success: true
                     })
                 } else {
                     res.status(200).json({
-                        success: true
+                        success: false
                     })
                 }
             })

@@ -4,6 +4,9 @@ import fs from 'fs-extra';
 
 const { albun } = model;
 const { video_album } = model;
+const { usuario } = model;
+const { portadas } = model
+
 
 class Album {
     static create(req, res) {
@@ -51,6 +54,7 @@ class Album {
             });
     }
     static list(req, res) {
+        
         return albun
             .findAll({
                 include:[{
@@ -59,6 +63,39 @@ class Album {
                 }]
             })
             .then(data => res.status(200).send(data));
+    }
+
+    static list_video_user (req,res){
+        const { id_user } = req.params
+        return video_album
+        .findAll({
+            attributes:['video'],
+            include:[{
+                model:albun,
+                include:[{
+                    model:portadas,
+                    where:{id_user : id_user},
+                    attributes:['id_user']
+                }]
+            }]
+        })
+        .then(data => {
+            if(!data){
+                res.status(400).json({
+                    success:false,
+                    msg:"no hay nada que mostrar"
+                })
+            }else{
+                console.log(data.length)
+                var arr = []
+                for(var i = 0; i < data.length; i ++){
+                    if (data[i].albun){
+                        arr.push(data[i])
+                    }
+                }
+                res.status(200).json(arr)
+            }   
+        })
     }
 
     static one_video(req, res) {

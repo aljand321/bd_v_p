@@ -8,7 +8,7 @@ class Portada {
     static cratePortada(req,res){
         const { title, description } = req.body;
         const { id_user } = req.params;
-        console.log(req.file, " <<<<<<<<<<<<<<<<<<<<<<")
+        //console.log(req.file, " <<<<<<<<<<<<<<<<<<<<<<")
         return portadas
             .create({
                 title,
@@ -30,6 +30,14 @@ class Portada {
     static list_portda(req, res) {
         return portadas
             .findAll()
+            .then(data => res.status(200).send(data));
+    }
+    static list_user (req, res) {
+        const  { id_user } = req.params
+        return portadas
+            .findAll({
+                where:{id_user : id_user}
+            })
             .then(data => res.status(200).send(data));
     }
     static One_portada(req,res){

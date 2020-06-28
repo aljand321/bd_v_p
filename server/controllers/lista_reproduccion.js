@@ -25,8 +25,11 @@ class Lista_reproduccion {
         });
     }
     static list(req,res){
+        const { id_user } = req.params
         return lista_reproduccion
-        .findAll()
+        .findAll({
+            where:{id_user: id_user}
+        })
         .then(data => {
             res.status(200).json({
                 success:true,

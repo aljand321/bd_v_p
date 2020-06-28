@@ -16,7 +16,7 @@ const AuthToken = require('./server/midleware/token')
 var cors = require('cors')
 
 const hostname = '127.0.0.1';
-const red = '192.168.1.152';
+const red = '192.168.1.9';
 const port = process.env.PORT || 3000;
 const app = express()
 const server = http.createServer(app);
@@ -31,7 +31,8 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use('/uploads', express.static(path.resolve('uploads')));
-//app.use(AuthToken);
+
+app.use(AuthToken);
 
 routes(app);
 

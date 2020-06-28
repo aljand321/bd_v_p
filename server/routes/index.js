@@ -131,70 +131,72 @@ module.exports = (app) => {
 
     //Videos de musicas
     //portadas
-    app.post('/portada/:id_user', passport.authenticate('jwt', { session: false}), destB.single('music'), Portada.cratePortada);
-    app.get('/portada', passport.authenticate('jwt', { session: false}),  Portada.list_portda);
-    app.get('/portada/:id', passport.authenticate('jwt', { session: false}), Portada.One_portada);
-    app.put('/portada/:id', passport.authenticate('jwt', { session: false}), Portada.updatePortada);
-    app.delete('/portada/:id', passport.authenticate('jwt', { session: false}), Portada.delete_portada);
+    app.post('/portada/:id_user',  destB.single('music'), Portada.cratePortada);
+    app.get('/portada',  Portada.list_portda);
+    app.get('/portada_user/:id_user', Portada.list_user)
+    app.get('/portada/:id',  Portada.One_portada);
+    app.put('/portada/:id',  Portada.updatePortada);
+    app.delete('/portada/:id', Portada.delete_portada);
 
-    app.get('/buscar_portada', passport.authenticate('jwt', { session: false}), Portada.buscar_portada);
+    app.get('/buscar_portada', Portada.buscar_portada);
 
     //album
-    app.post('/album/:id_portada', passport.authenticate('jwt', { session: false}), destB_1.single('vid'), Album.create);
-    app.get('/album_portada/:id', passport.authenticate('jwt', { session: false}), Album.VideosDePortada);
-    app.get('/album', passport.authenticate('jwt', { session: false}), Album.list);
-    app.get('/album/:id', passport.authenticate('jwt', { session: false}), Album.one_video);
-    app.delete('/album/:id', passport.authenticate('jwt', { session: false}), Album.delete_music);
-    app.put('/album/:id', passport.authenticate('jwt', { session: false}), Album.update_music);
+    app.post('/album/:id_portada', destB_1.single('vid'), Album.create);
+    app.get('/album_portada/:id', Album.VideosDePortada);
+    app.get('/album/:id_user',  Album.list_video_user); // esto es lo que estoy modificando
+    app.get('/album_all', Album.list);
+    app.get('/album_one/:id', Album.one_video);
+    app.delete('/album/:id', Album.delete_music);
+    app.put('/album/:id', Album.update_music);
 
-    app.get('/buscador', passport.authenticate('jwt', { session: false}), Album.buscar_video);
+    app.get('/buscador', Album.buscar_video);
 
     //video album 
-    app.post('/addVideo_album/:id_album', passport.authenticate('jwt', { session: false}), destB_2.single('video'), Video_album.create);
-    app.get('/videos_all', passport.authenticate('jwt', { session: false}), Video_album.list_all)
-    app.delete('/delte_video_album_data/:id', passport.authenticate('jwt', { session: false}), Video_album.delete_video)
+    app.post('/addVideo_album/:id_album', destB_2.single('video'), Video_album.create);
+    app.get('/videos_all', Video_album.list_all)
+    app.delete('/delte_video_album_data/:id', Video_album.delete_video)
 
     //lista de reproduccion
-    app.post('/lista_reproduccion/:id_user', passport.authenticate('jwt', { session: false}), Lista_reproduccion.create);
-    app.get ('/lista_reproduccion', passport.authenticate('jwt', { session: false}), Lista_reproduccion.list);
-    app.get ('/lista_reproduccion/:id', passport.authenticate('jwt', { session: false}), Lista_reproduccion.one_list);
-    app.delete('/lista_reproduccion/:id', passport.authenticate('jwt', { session: false}), Lista_reproduccion.delete_lista);
-    app.put('/lista_reproduccion', passport.authenticate('jwt', { session: false}), Lista_reproduccion.update_list);
+    app.post('/lista_reproduccion/:id_user', Lista_reproduccion.create);
+    app.get ('/lista_reproduccion/:id_user',  Lista_reproduccion.list);
+    app.get ('/lista_reproduccion/:id', Lista_reproduccion.one_list);
+    app.delete('/lista_reproduccion/:id', Lista_reproduccion.delete_lista);
+    app.put('/lista_reproduccion', Lista_reproduccion.update_list);
 
     //consuta que muestra los viodes que pertenecen a una lista de reproduccion
-    app.get('/videos_of_lista/:id_video', passport.authenticate('jwt', { session: false}), Lista_reproduccion.videos_list);
+    app.get('/videos_of_lista/:id_video', Lista_reproduccion.videos_list);
 
     //videos de lista de reproduccion
-    app.post('/video_lista', passport.authenticate('jwt', { session: false}), Videos_lista.create); // esta ruta es para poder añadiar videos a lista de reproduccion
-    app.get('/video_lista', passport.authenticate('jwt', { session: false}), Videos_lista.video_list_A)
-    app.get('/video_lista/:id_lista', passport.authenticate('jwt', { session: false}), Videos_lista.video_list);
-    app.get('/video_lista_one/:id', passport.authenticate('jwt', { session: false}), Videos_lista.one_video_list);
-    app.delete('/video_lista/:id', passport.authenticate('jwt', { session: false}), Videos_lista.delete_video);
-    app.delete('/del_video_list/:id_video/:id_lista',passport.authenticate('jwt', { session: false}), Videos_lista.delete_video_lista)
+    app.post('/video_lista', Videos_lista.create); // esta ruta es para poder añadiar videos a lista de reproduccion
+    app.get('/video_lista', Videos_lista.video_list_A)
+    app.get('/video_lista/:id_lista', Videos_lista.video_list);
+    app.get('/video_lista_one/:id', Videos_lista.one_video_list);
+    app.delete('/video_lista/:id', Videos_lista.delete_video);
+    app.delete('/del_video_list/:id_video/:id_lista', Videos_lista.delete_video_lista)
 
 
     //login
     app.post('/register', Usuario.create_usuario);
     app.post('/login', Usuario.login);  
-    app.get('/mostrar_users', admin_passport.authenticate('jwt', { session: false}), Usuario.mostrar_users); 
-    app.get('/delete_user/:id', passport.authenticate('jwt', { session: false}), Usuario.delete_user);
+    app.get('/mostrar_users', Usuario.mostrar_users); 
+    app.get('/delete_user/:id', Usuario.delete_user);
     app.get('/user_length', Usuario.user_length);
     //contactos
-    app.post('/contacto/:id_user', passport.authenticate('jwt', { session: false}), destC.single('img_user'), Contacto.create );
-    app.get('/contacto', admin_passport.authenticate('jwt', { session: false}), Contacto.list_contactos);
-    app.get('/contacto/:id_user',passport.authenticate('jwt', { session: false}), Contacto.contacot_user);
-    app.put('/contacto/:id_user', passport.authenticate('jwt', { session: false}), destC.single('img_user'), Contacto.actualizar_contacto);
-    app.put('/contacto1/:id_user', passport.authenticate('jwt', { session: false}), Contacto.actualizar_contacto1);
+    app.post('/contacto/:id_user',  destC.single('img_user'), Contacto.create );
+    app.get('/contacto', Contacto.list_contactos);
+    app.get('/contacto/:id_user',  Contacto.contacot_user);
+    app.put('/contacto/:id_user',  destC.single('img_user'), Contacto.actualizar_contacto);
+    app.put('/contacto1/:id_user', Contacto.actualizar_contacto1);
     app.get('/delete_contacto/:id_user', Contacto.delete);
     // rutas solo para super admin
     //role add
     app.post('/role', Roles.create_rol);
-    app.get('/role', admin_passport.authenticate('jwt', { session: false}), Roles.lit_role);
+    app.get('/role',  Roles.lit_role);
     //add table user_role
     app.post('/user_role', User_roles.create_user_role);
-    app.get('/user_role', admin_passport.authenticate('jwt', { session: false}), User_roles.list);
-    app.get('/user_role/:id', admin_passport.authenticate('jwt', { session: false}), User_roles.one);
-    app.get('/delete_role_user/:id', admin_passport.authenticate('jwt', { session: false}), User_roles.delete);
+    app.get('/user_role',  User_roles.list);
+    app.get('/user_role/:id', User_roles.one);
+    app.get('/delete_role_user/:id', User_roles.delete);
 };
 
 //sequelize   
