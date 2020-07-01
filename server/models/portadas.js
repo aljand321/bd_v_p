@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const portadas = sequelize.define('portadas', {
     title: DataTypes.STRING,
-    description: DataTypes.STRING,
+    description: DataTypes.TEXT,
     imagePath: DataTypes.STRING,
     id_user:{
       type: DataTypes.INTEGER,

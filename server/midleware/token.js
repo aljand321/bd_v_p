@@ -76,7 +76,7 @@ function permission(data, user) {
 }
 module.exports = function (req, res, next) {
     var ruta = req.path
-    console.log(ruta, " <<<<<<<<<<<<<<<<<<<<<<<<")
+    console.log(req.method,' < > ',ruta, " <<<<<<<<<<<<<<<<<<<<<<<<")
     if (req.headers.authorization) {
         let token = req.headers.authorization.split(' ')[1];
         jwt.verify(token, 'nodeauthsecret', function (error, decoded) {

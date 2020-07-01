@@ -114,7 +114,7 @@ class Album {
 
     static update_music(req, res) {
         const { album, nombre, artista, anio, genero } = req.body
-
+        console.log(req.body, "esto es lo que queiro ver ")
         return albun
             .findByPk(req.params.id)
             .then((data) => {
