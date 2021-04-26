@@ -181,6 +181,7 @@ module.exports = (app) => {
     app.get('/mostrar_users', Usuario.mostrar_users); 
     app.get('/delete_user/:id', Usuario.delete_user);
     app.get('/user_length', Usuario.user_length);
+    app.get('/data_user/:id', Usuario.dataUser);
     //contactos
     app.post('/contacto/:id_user',  destC.single('img_user'), Contacto.create );
     app.get('/contacto', Contacto.list_contactos);

@@ -24,7 +24,7 @@ class Users {
       .findAll()
       .then(users => res.status(200).send(users));
   }
-
+  
 }
 
 

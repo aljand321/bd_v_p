@@ -34,7 +34,9 @@ function permission(data, user) {
             user_role: '/user_role',
             delete_role_user: '/delete_role_user',
 
-            portada_user:'/portada_user'
+            portada_user:'/portada_user',
+
+            data_user:'/data_user'
         }
         if (ruta_administrador[r]) {
             return true
@@ -64,7 +66,9 @@ function permission(data, user) {
             contacto: '/contacto',
             contacto1: '/contacto1',
 
-            portada_user:'/portada_user'
+            portada_user:'/portada_user',
+
+            data_user:'/data_user'
         }
 
         if (ruta_usuario[r]) {

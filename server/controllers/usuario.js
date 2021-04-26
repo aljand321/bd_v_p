@@ -8,6 +8,7 @@ require('../config/passport')(passport);
 const { usuario } = model;
 const { role } = model;
 const { user_role } = model;
+const { contacto } = model
 
 
 class Usuario {
@@ -26,48 +27,48 @@ class Usuario {
                         where: { user: user }
                     })
                     .then(data => {
-                        console.log(data," <<<<<<<<<<<<<<<<")
+                        console.log(data, " <<<<<<<<<<<<<<<<")
                         if (data) {
                             res.status(200).json({
                                 success: false,
                                 msg: "Ese usuario ya esta registrado",
-                                data:data
+                                data: data
                             })
-                        } else {    
+                        } else {
                             return usuario
-                            .findOne({
-                                where: { email: email }
-                            })   
-                            .then(resp => {
-                                if(resp){
-                                    res.status(200).json({
-                                        success:false,
-                                        msg:"Ya esta registrado ese email"
-                                    })
-                                }else{
-                                    return usuario
-                                        .create({
-                                            user,
-                                            email,
-                                            password
+                                .findOne({
+                                    where: { email: email }
+                                })
+                                .then(resp => {
+                                    if (resp) {
+                                        res.status(200).json({
+                                            success: false,
+                                            msg: "Ya esta registrado ese email"
                                         })
-                                        .then(data => {
-                                            res.status(200).json({
-                                                msg: "Registrado...",
-                                                success: true,
-                                                data
+                                    } else {
+                                        return usuario
+                                            .create({
+                                                user,
+                                                email,
+                                                password
                                             })
-                                        })
-                                        .catch(err => {
-                                            console.error(err)
-                                            res.status(400).json({
-                                                msg: "No se pudo crear los datos",
-                                                err
+                                            .then(data => {
+                                                res.status(200).json({
+                                                    msg: "Registrado...",
+                                                    success: true,
+                                                    data
+                                                })
                                             })
-                                        })
-                                }
-                            })                     
-                            
+                                            .catch(err => {
+                                                console.error(err)
+                                                res.status(400).json({
+                                                    msg: "No se pudo crear los datos",
+                                                    err
+                                                })
+                                            })
+                                    }
+                                })
+
                         }
                     })
 
@@ -179,6 +180,51 @@ class Usuario {
                 }
             })
             .catch(erro => console.error(erro))
+    }
+    static async dataUser(req, res) {
+        const { id } = req.params;
+        /* try {
+            var user = await usuario.findOne({
+                where: { id },
+                include: [{
+                    model: contacto
+                }]
+            });
+            return res.status(200).json({
+                success: true,
+                msg: "Datos del usuraio",
+                user
+            })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                msg: "Error 500",
+                error
+            })
+        } */
+        return usuario.findOne({
+            where:{id},
+            include: [{
+                model: contacto
+            }]
+        })
+        .then(data => {
+            if(!data)
+                return res.status(400).json({
+                    success: false,
+                    msg:"No existe ese usuario"
+                })
+                return res.status(200).json({
+                    success: true,
+                    msg: "Datos del usuraio",
+                    user: data,
+                    imagen: data.contactos[0].imagen_perfil
+                })             
+        })
+        .catch(error =>{
+            console.error(error);
+        })
+
     }
 }
 
